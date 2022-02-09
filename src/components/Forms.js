@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Navigate } from 'react-router-dom';
 
 export default function Form(props) {
 
@@ -27,6 +28,10 @@ export default function Form(props) {
     let clear_value = ''
     setText(clear_value)
     props.showAlert("Values are cleared","Success")
+  }
+  const tocopyValue = () => {
+    navigator.clipboard.writeText(text)
+    props.showAlert("Values are copied","Success")
   }
   const tosearchValue = () => {
     let value
@@ -57,11 +62,13 @@ export default function Form(props) {
         <button disabled={text.length===0} className="btn btn-primary mx-2 my-1" onClick={toLowerValue} >Uppercase Lower To</button>
         <button disabled={text.length===0} className="btn btn-primary mx-2 my-1" onClick={toClearValue} >Clear values</button>
         <button disabled={text.length===0} className="btn btn-primary mx-2 my-1" onClick={tosearchValue} >Search values</button>
+        <button disabled={text.length===0} className="btn btn-primary mx-2 my-1" onClick={tocopyValue} >Copy values</button>
+
       </div>
       <br />
       <div className="conatiner" style={{color:props.mode ==='dark'?'white':'black'}}>
         <h3>Your Text Summary</h3>
-        <p>{text.split(' ').filter((element)=> {return element.length!=0}).length} Word and Characters are {text.length}</p>
+        <p>{text.split(/\s+/).filter((element)=> {return element.length!=0}).length} Word and Characters are {text.length}</p>
         <h3>Preview</h3>
         <p>{text}</p>
         <p>Time to count values {0.008 * text.length}</p>
